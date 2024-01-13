@@ -6,17 +6,21 @@ import { OrbitControls } from './Threejs/OrbitControls.js';
 // CSS2DRenderer is a simplified version of CSS3DRenderer. The only transformation that is supported is translation.
 import { CSS2DRenderer, CSS2DObject } from './Threejs/CSS2DRenderer.js';
 
-// Create a new scene object. - Scenes allow you to set up what and where is to be rendered by three.js. 
+// Create a new scene object. - Scenes allow you to set up what and where is to be rendered by three.js. (TO PUT EVERYTHING ON IT)
 const scene = new THREE.Scene();
 
 // Create a new camera object. - The camera defines the portion of the scene that is visible.
+// PerspectiveCamera( fov : Number, aspect : Number, near : Number, far : Number ) ... The number is scene units or world units... It is a unit system in Three.js - you can think it as relative scale in THREE.js.  More info: https://www.youtube.com/watch?v=KyTaxN2XUyQ
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
 // Create a new renderer object. - The renderer renders the scene using the camera.
+// Web Graphics Library for 2D and 3D.
+// const renderer = new THREE.WebGLRenderer({ antialias });
+// const renderer = new THREE.WebGLRenderer({ antialias: true});
 const renderer = new THREE.WebGLRenderer();
 
 // Set the size of the renderer to the size of the window.
-renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setSize(window.innerWidth, window.innerHeight );
 
 // Add the renderer to the document.
 document.body.appendChild(renderer.domElement);
@@ -36,8 +40,8 @@ cube.position.z = 0;
 // Add the cube to the scene.
 scene.add(cube)
 
-// add second cube
-const cube2 = new THREE.Mesh(geometry, new THREE.MeshPhongMaterial({color: 0xff0000}));
+// add second cube: yellow
+const cube2 = new THREE.Mesh(geometry, new THREE.MeshPhongMaterial({color: 0xffff00}));
 cube2.position.set(-1,1,0);
 scene.add(cube2);
 
@@ -46,7 +50,12 @@ const cube3 = new THREE.Mesh(geometry, new THREE.MeshPhongMaterial({color: 0x000
 cube3.position.set(-1,0,-1);
 scene.add(cube3);
 
+// add fourth cube
+const cube4 = new THREE.Mesh(new THREE.BoxGeometry(0.1,0.1,0.1), new THREE.MeshPhongMaterial({color: 0xffffff}));
+cube4.position.set(0,0,0);
+scene.add(cube4);
 
+// By default the camera and the cube are inside each other, so we have to change the positio n of on of those
 // Move the camera out on the z-axis.
 camera.position.x = 0;
 // camera high
@@ -54,7 +63,7 @@ camera.position.y = 0;
 camera.position.z = 5;
 
 // set the camera to look at the cube position (0,0,0).
-camera.lookAt(0,0,0)
+// camera.lookAt(0,0,0)
 
 // A light that gets emitted from a single point in all directions. A common use case for this is to replicate the light emitted from a bare lightbulb
 // PointLight( color : Integer, intensity : Float, distance : Number, decay : Float )
@@ -67,6 +76,11 @@ scene.add(pointLight)
 // AmbientLight( color : Integer, intensity : Float )
 const ambientLight = new THREE.AmbientLight(0x404040, 0.1);
 scene.add(ambientLight)
+
+// Try to include a text
+const text = "Hello World";
+const loader = new THREE.FontLoader();
+
 
 // CSS2DRenderer( parameters : Object )
 const css2DRenderer = new CSS2DRenderer();
@@ -99,7 +113,7 @@ const controls = new OrbitControls(camera, renderer.domElement);
 const animate = () => { 
   requestAnimationFrame(animate);
   // udpate the camera
-  controls.update();
+  // controls.update();
   renderer.render(scene, camera);
 };
 
